@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>对象的引用</title>
+</head>
+<body>
+    <script>
+//        var obj = new Object();
+//        obj.name = 'c';
+//        obj.showName = function(){
+//
+//        }
+//
+//        var obj2 = {
+//            name:'d',
+//            showName:function(){
+//
+//            }
+//        }
+//        obj2.showName()
+
+        let str1 = 'hi';
+        let str2 = 'hi';
+        console.log(str1 == str2) //true
+
+//        let o1 = {};
+//        let o2 = {};
+//        console.log(o1 == o2) //false
+//
+//
+//        let f1 = function(){};
+//        let f2 = function(){};
+//        console.log(f1 == f2) //false
+//
+//
+//        let obj1 = {name:"hello"};
+//        let obj2 = obj1;
+//        obj2.name = 'pp';
+//        console.log(obj1);
+
+        //浅拷贝
+//        let obj3 = {name:'fd'};
+//        let obj4 = copy(obj3);
+//        obj4.name = 'o4';
+//        console.log(obj3)
+//
+//        function copy(obj){
+//            let result = {};
+//            for(let attr in obj){
+//                result[attr] = obj[attr]
+//            }
+//            return result;
+//         }
+
+
+        //深拷贝
+        let obj3 = {name:{age:15}};
+        let obj4 = copy(obj3);
+        obj4.name.age = 'o4';
+        console.log(obj3)
+
+        function copy(obj){
+            let result = {};
+            for(let attr in obj){
+                if(typeof obj[attr] == 'object'){
+                    result[attr] = copy(obj[attr])
+                }else{
+                    result[attr] = obj[attr]
+                }
+            }
+            return result;
+        }
+    </script>
+</body>
+</html>
