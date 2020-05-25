@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #div1{width:100px;height:100px;position:absolute;background:pink}
+        #div2{width:100px;height:100px;position:absolute;background:gold}
+    </style>
+</head>
+<body>
+<div id="div1"></div>
+<div id="div2"></div>
+<script>
+    function Drag(id){
+        this.disX = 0;
+        this.disY = 0;
+        this.elem = document.getElementById(id)
+    }
+    Drag.prototype.init = function(){
+        var that = this;
+        this.elem.onmousedown = function(ev){
+            that.fnDown(ev)
+            document.onmousemove = function(ev){
+                that.fnMove(ev);
+            }
+            document.onmouseup = function(ev){
+                that.fnUp(ev)
+            }
+        }
+    }
+    Drag.prototype.fnDown = function(ev){
+        this.disX = ev.pageX - this.elem.offsetLeft;
+        this.disY = ev.pageY - this.elem.offsetTop;
+    }
+    Drag.prototype.fnMove = function(ev){
+        this.elem.style.left = ev.pageX - this.disX + 'px';
+        this.elem.style.top = ev.pageY - this.disY + 'px';
+    }
+    Drag.prototype.fnUp = function(ev){
+        document.onmousemove = null
+        document.onmouseup = null
+    }
+    var d1 = new Drag("div1");
+    d1.init()
+
+
+    function Child(id){
+        this.disX = 0;
+        this.disY = 0;
+        this.elem = document.getElementById(id)
+    }
+    function extend(subs,sups){
+        for(var attr in sups.prototype){
+            subs.prototype[attr] =  sups.prototype[attr]
+        }
+    }
+    extend(Child,Drag)
+    //继承后 重写方法 即多态
+    Child.prototype.fnMove = function(ev){  //?????限制没用
+        var L = ev.pageX - this.disX;
+        var T = ev.pageY - this.disY;
+        if(L < 0) {
+            L = 0
+        }else if(L > window.innerWidth - this.elem.offsetWidth){
+            L = window.innerWidth - this.elem.offsetWidth
+        }
+        if(T < 0) {
+            T = 0
+        }else if(T > window.innerHeight - this.elem.offsetHeight){
+            T = window.innerHeight - this.elem.offsetHeight
+        }
+        this.elem.style.left = L + 'px';
+        this.elem.style.top =  T + 'px';
+    }
+    var d2 = new Drag("div2");
+    d2.init()
+</script>
+</body>
+</html>
