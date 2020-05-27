@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #div1{position: absolute;top:0;left:0;width: 100px;height: 100px;background: yellow}
+    </style>
+</head>
+<body>
+    <div id="div1"></div>
+    <script>
+        class Drag{
+            constructor(id) {
+                this.main = document.querySelector(id);
+                this.disX = 0;
+                this.disY = 0;
+                this.init();
+            }
+            init(){
+                this.main.onmousedown = function(ev){
+                    ev.preventDefault();
+
+                    this.disX =  ev.clientX  - this.main.offsetLeft;
+                    this.disY =  ev.clientY - this.main.offsetTop;
+
+                    document.onmousemove = this.moveFn.bind(this);
+                    document.onmouseup = this.upFn.bind(this)
+                }.bind(this)
+            }
+            ensureRange(e){
+                let left = e.clientX - this.disX;
+                let width = window.innerWidth - this.main.offsetWidth;
+                if(left < 0){
+                    left = 0
+                } else if(left > width){
+                    left = width
+                }
+                let top = e.clientY - this.disY;
+                let height = window.innerHeight - this.main.offsetHeight;
+                if(top < 0){
+                    top = 0
+                }else if(top > height){
+                    top = height
+                }
+                return {
+                    left,
+                    top
+                }
+            }
+            moveFn(e){
+                let xy = this.ensureRange(e);
+                this.main.style.left = xy.left +'px';
+                this.main.style.top = xy.top + "px";
+            }
+            upFn(){
+                document.onmousemove = null;
+                document.onmouseup = null;
+            }
+
+        }
+        new Drag("#div1")
+    </script>
+</body>
+</html>
