@@ -6,5 +6,79 @@
 </head>
 <body>
     index  tag 8 ttt
+    <script>
+//        Array.prototype.sum = function(){
+//            var res = 0;
+//            for(var i=0;i<this.length;i++){
+//                res += this[i]
+//            }
+//            return res
+//        }
+//        var arr = [1,2,3];
+//        console.log(arr.sum())
+
+//        let a = {
+//            fn:function(x,y){
+//                console.log(x, y);
+//                console.log('a')
+//            }
+//        }
+//        function fn(x,y){
+//            console.log(x, y);
+//            console.log(this)
+//        }
+//        fn.call(null,1,2)
+
+
+
+//        function Par(name,age){
+//            this.name = name;
+//            this.age = age;
+//            this.p = 10;
+//        }
+//        Par.prototype.sing = function(){
+//            console.log('sing')
+//        }
+//        function Chi(name,age){
+//            Par.call(this,name,age)
+//        }
+//        Chi.prototype = new Par();
+//        Chi.prototype.constructor = Chi;
+//        let c1 = new Chi('bin',18);
+//        console.log(c1);
+//        c1.sing();
+//
+//        class Star{
+//
+//        }
+//        console.log(typeof (Star))
+//        console.log(Star.prototype)
+        let data = [
+            {
+                id:1,
+                name:'sd',
+                goods:[
+                    {id:11,name:'s1'}
+                ]
+            },{
+                id:2,
+                name:'pp'
+            }
+        ]
+        function getId(data,id){
+            let o = {};
+            data.forEach(function(item){
+                if(item.id == id){
+                    o = item;
+                }else if(item.goods && item.goods.length > 0){
+                    o = getId(item.goods,id)
+                }
+            });
+            return o
+        }
+
+console.log(getId(data, 1));
+console.log(getId(data, 11));
+    </script>
 </body>
 </html>
