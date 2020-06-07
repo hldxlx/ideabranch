@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        canvas{
+            background:#000;
+            display:block;
+            /*vertical-align:middle;*/
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas">富商大贾</canvas>
+<script type="text/javascript">
+    var can = document.getElementById("canvas");
+    var ctx = can.getContext("2d");
+    var w = can.width = window.innerWidth;
+    var h = can.height = window.innerHeight;
+    window.onresize = function(){
+        w = can.width = window.innerWidth;
+        h = can.height = window.innerHeight;
+    }
+    function Drop(){
+        this.init();
+    }
+    Drop.prototype.init = function(){
+        this.x = this.rand(0,w);//雨滴的初始x坐标
+        this.y = 0;//雨滴的初始y坐标
+        this.vy = this.rand(4,5);//雨滴下落的随机速度
+        this.l = this.rand(0.8*h,0.9*h);//雨滴下落的最大高度
+        this.r = 1;//初始半径
+        this.vr = 1;//半径增大的速度
+        this.a = 1;//透明度
+        this.va = 0.96;//透明度变化系数
+    }
+    Drop.prototype.rand = function(min,max){
+      return Math.random()*(max-min)+min;//min~max
+    }
+    Drop.prototype.draw = function(){
+        if(this.y > this.l){
+            //绘制波纹
+            ctx.beginPath();
+            ctx.arc(this.x,this.y,this.r,0,Math.PI*2,false);
+            ctx.strokeStyle = "rgb(0,255,255)";
+            ctx.stroke();
+        }else{
+            //绘制下落的雨滴
+            ctx.fillStyle = "rgb(0,255,255)";
+            ctx.fillRect(this.x,this.y,2,10);
+        }
+        this.update();
+    }
+    Drop.prototype.update = function(){
+        //当y坐标小于l高度就一直累加
+        if(this.y < this.l){
+            this.y += this.vy;
+        }else{
+//            //圆形半径增大
+//            if(this.r < 50){
+//                this.r += this.vr;
+//            }else{
+//                //重新初始化
+//            }
+            //判断透明度
+            if(this.a > 0.03){
+                this.r += this.vr;
+                if(this.r > 50){
+                    this.a *= this.va;
+                }
+            }else{
+                //重新初始化
+                this.init();
+            }
+        }
+    }
+    let d = new Drop();
+    setInterval(function(){
+        ctx.fillStyle = "rgba(0,0,0,0.01)";
+        ctx.fillRect(0,0,w,h);
+        d.draw();
+    },30)
+
+
+
+</script>
+</body>
+</html>

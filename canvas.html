@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        canvas{
+            background:#000;
+            display:block;
+            /*vertical-align:middle;*/
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas">富商大贾</canvas>
+    <script type="text/javascript">
+        var can = document.getElementById("canvas");
+        var ctx = can.getContext("2d");
+        var w = can.width = window.innerWidth;
+        var h = can.height = window.innerHeight;
+        window.onresize = function(){
+             w = can.width = window.innerWidth;
+             h = can.height = window.innerHeight;
+        }
+        //canvas绘制矩形
+        //设置矩形框的路经
+//        ctx.rect(x,y,w,h)//x,y坐标 w,h宽高
+//        //画出来
+//        ctx.fill();//填充方法 实心
+//        ctx.stroke();//触笔方法 空心
+
+        //把上面三种方法组合起来
+        ctx.fillStyle = 'red';
+        ctx.fillRect(100,100,50,50);
+
+        //绘制圆形
+        ctx.arc(250,250,50,0,Math.PI*2,false);
+        ctx.strokeStyle = "red";
+        ctx.stroke();
+
+        //运动
+        var y = 0;
+        setInterval(function(){
+            y++;
+            //先清空再绘制
+            ctx.clearRect(0,0,w,h);
+            ctx.fillRect(100,y,50,50);
+        },30);
+
+
+    </script>
+</body>
+</html>
